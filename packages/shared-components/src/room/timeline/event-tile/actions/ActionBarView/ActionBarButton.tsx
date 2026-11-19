@@ -49,7 +49,8 @@ export function ActionBarButton({
         localRef.current.tabIndex = tabIndex;
     }, [tabIndex]);
 
-    const handleContextMenu = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    // Stop the event reaching the tile, which has its own click handlers (e.g. opening a thread preview).
+    const handleActivate = (event: React.MouseEvent<HTMLButtonElement>): void => {
         event.preventDefault();
         event.stopPropagation();
         onActivate?.(event.currentTarget);
@@ -67,8 +68,8 @@ export function ActionBarButton({
                 aria-pressed={ariaPressed}
                 aria-expanded={ariaExpanded}
                 disabled={disabled}
-                onClick={(event) => onActivate?.(event.currentTarget)}
-                onContextMenu={handleContextMenu}
+                onClick={handleActivate}
+                onContextMenu={handleActivate}
                 onFocus={disabled ? undefined : onFocus}
                 className={styles.toolbar_item}
                 Icon={iconOnly ? icon : undefined}
